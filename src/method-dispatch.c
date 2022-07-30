@@ -23,6 +23,9 @@ SEXP method_rec(SEXP table, SEXP signature, R_xlen_t signature_itr) {
     if (TYPEOF(val) == CLOSXP) {
       return val;
     }
+    if (TYPEOF(val) == VECSXP) {
+      return VECTOR_ELT(val, 0);
+    }
   }
 
   // ANY fallback
@@ -32,6 +35,9 @@ SEXP method_rec(SEXP table, SEXP signature, R_xlen_t signature_itr) {
   }
   if (TYPEOF(val) == CLOSXP) {
     return val;
+  }
+  if (TYPEOF(val) == VECSXP) {
+    return VECTOR_ELT(val, 0);
   }
 
   return R_NilValue;

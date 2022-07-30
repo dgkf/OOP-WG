@@ -10,6 +10,7 @@ global_variables <- function(names) {
 }
 
 vlapply <- function(X, FUN, ...) vapply(X = X, FUN = FUN, FUN.VALUE = logical(1), ...)
+vnapply <- function(X, FUN, ...) vapply(X = X, FUN = FUN, FUN.VALUE = numeric(1), ...)
 vcapply <- function(X, FUN, ...) vapply(X = X, FUN = FUN, FUN.VALUE = character(1), ...)
 `%||%` <- function(x, y) if (length(x) == 0) y else x
 

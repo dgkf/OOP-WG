@@ -116,7 +116,8 @@ print.R7_generic <- function(x, ...) {
   if (length(methods) > 0) {
     signatures <- lapply(methods, prop, "signature")
     msg <- vcapply(signatures, method_signature, generic = x)
-    msg <- paste0(format(seq_along(signatures)), ": ", msg, "\n")
+    from <- vcapply(methods, method_source)
+    msg <- paste0(format(seq_along(signatures)), ": ", msg, " [", from, "]\n")
     cat(msg, sep = "")
   }
 
@@ -133,6 +134,7 @@ check_generic <- function(fun) {
     stop("`fun` must contain a call to `R7_dispatch()`", call. = FALSE)
   }
 }
+
 find_call <- function(x, name) {
   if (is.call(x)) {
     if (identical(x[[1]], name)) {
@@ -179,9 +181,18 @@ generic_add_method <- function(generic, signature, method) {
       p_tbl <- tbl
     } else {
       if (!is.null(p_tbl[[class_name]])) {
-        message("Overwriting method ", method_name(generic, signature))
+        message(sprintf(
+          "method %s from '%s' masked by method in '%s'",
+          method_name(generic, signature),
+          method_source(if (is.list(m <- p_tbl[[class_name]])) m[[1]] else m),
+          method_source(method)
+        ))
+
+        # prepare to push new method onto the stack
+        p_tbl[[class_name]] <- append(list(NULL), p_tbl[[class_name]])
       }
-      p_tbl[[class_name]] <- method
+
+      p_tbl[[class_name]][[1]] <- method
     }
   }
 }
