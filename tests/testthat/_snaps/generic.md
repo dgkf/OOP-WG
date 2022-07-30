@@ -54,15 +54,15 @@
       foo1
     Output
       <R7_generic> foo1(x, ...) with 2 methods:
-      1: method(foo1, class_character)
-      2: method(foo1, text)
+      1: method(foo1, class_character) [environment]
+      2: method(foo1, text) [environment]
     Code
       foo3
     Output
       <R7_generic> foo3(x, y, z, ...) with 3 methods:
-      1: method(foo3, list(class_character, class_integer, class_character))
-      2: method(foo3, list(class_character, class_integer, class_logical))
-      3: method(foo3, list(class_character, text, class_character))
+      1: method(foo3, list(class_character, class_integer, class_character)) [environment]
+      2: method(foo3, list(class_character, class_integer, class_logical)) [environment]
+      3: method(foo3, list(class_character, text, class_character)) [environment]
 
 # R7_generic printing with long / many arguments
 
