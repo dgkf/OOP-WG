@@ -43,7 +43,7 @@ R7::method(foo, R7::class_double) <- function(x) "pkgB::foo(<double>)"
 
 ### Packages in isolation
 
-Both packagees will provide functional generics and methods in isolation. 
+Both packages will provide functional generics and methods in isolation. 
 
 ```r
 library(pkgA)
