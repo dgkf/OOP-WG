@@ -181,12 +181,23 @@ generic_add_method <- function(generic, signature, method) {
       p_tbl <- tbl
     } else {
       if (!is.null(p_tbl[[class_name]])) {
-        message(sprintf(
-          "method %s from '%s' masked by method in '%s'",
-          method_name(generic, signature),
-          method_source(if (is.list(m <- p_tbl[[class_name]])) m[[1]] else m),
-          method_source(method)
-        ))
+        # find any methods defined from same method source environment
+        is_same_source <- vlapply(
+          p_tbl[[class_name]],
+          function(i) identical(environment(i), environment(method))
+        )
+
+        if (any(is_same_source)) {
+          message("Overwriting method ", method_name(generic, signature))
+          p_tbl[[class_name]] <- p_tbl[[class_name]][!is_same_source]
+        } else {
+          message(sprintf(
+            "method %s from '%s' masked by method in '%s'",
+            method_name(generic, signature),
+            method_source(if (is.list(m <- p_tbl[[class_name]])) m[[1]] else m),
+            method_source(method)
+          ))
+        }
 
         # prepare to push new method onto the stack
         p_tbl[[class_name]] <- append(list(NULL), p_tbl[[class_name]])

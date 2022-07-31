@@ -4,7 +4,7 @@
       method(foo, class_character) <- (function(x) "c")
       method(foo, class_character) <- (function(x) "c")
     Message <simpleMessage>
-      method foo(<character>) from 'environment' masked by method in 'environment'
+      Overwriting method foo(<character>)
 
 # method registration: S3 registration requires a R7 class
 

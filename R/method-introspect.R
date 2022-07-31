@@ -77,7 +77,7 @@ method_explain <- function(generic, class = NULL, object = NULL) {
     for (x in dispatchs) {
       env <- env[[x]]
     }
-    is.function(env)
+    !is.null(env) && !is.environment(env)
   }
   exists <- apply(grid, 1, has_method, env = generic@methods)
 
@@ -114,4 +114,3 @@ as_dispatch <- function(generic, class = NULL, object = NULL) {
     stop("Must supply exactly one of `class` and `object`", call. = FALSE)
   }
 }
-

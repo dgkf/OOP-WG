@@ -72,7 +72,6 @@ describe("method registration", {
   it("can register R7 method for S4 generic", {
     methods::setGeneric("bar", function(x) standardGeneric("bar"))
     S4foo <- new_class("S4foo")
-
     expect_snapshot_error(method(bar, S4foo) <- function(x) "foo")
 
     S4_register(S4foo)

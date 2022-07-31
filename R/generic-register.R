@@ -126,19 +126,23 @@ methods_mismatch_note <- function(generic, existing_generic, reason) {
 #'   only positional arguments to disambiguate dispatch args.
 #' - Maybe these more lenient interop behaviors could be user-configurable
 #'
-methods_check_compatibility <- function(genericA, genericB) {
-  if (!identical(body(genericA), body(genericB))) {
-    methods_mismatch_note(genericA, genericB, "mismatched dispatch body")
-  } else if (!identical(formals(genericA), formals(genericB))) {
-    methods_mismatch_note(genericA, genericB, "mismatched generic arguments")
-  } else if (!identical(genericA@dispatch_args, genericB@dispatch_args)) {
-    methods_mismatch_note(genericA, genericB, "mismatched dispatch arguments")
+methods_check_compatibility <- function(new, old) {
+  if (!identical(body(new), body(old))) {
+    methods_mismatch_note(new, old, "mismatched dispatch body")
+  } else if (!identical(formals(new), formals(old))) {
+    methods_mismatch_note(new, old, "mismatched generic arguments")
+  } else if (!identical(new@dispatch_args, old@dispatch_args)) {
+    methods_mismatch_note(new, old, "mismatched dispatch arguments")
   }
 }
 
 method_source <- function(method) {
-  env <- environment(method)
-  if (isNamespace(env)) getNamespaceName(env) else "environment"
+  env <- topenv(environment(method))
+  if (isNamespace(env)) {
+    getNamespaceName(env)
+  } else {
+    gsub("<environment: (.*)>", "\\1", format(env))
+  }
 }
 
 generic_method_sources <- function(generic) {
