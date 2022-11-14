@@ -5,7 +5,19 @@
 When two packages want to
 
  * provide a standalone generic
+   ```
+   # NAMESPACE
+   export(fn)
+   export(fn.my_class)
+   ```
+
  * and be compatible with eachother's generics
+   ```
+   # NAMESPACE
+   export(fn)
+   export(fn.my_class)
+   S3method(pkgB::fn,my_class)
+   ```
 
 They must export their own generics, while also registering methods against
 eachother's generics.
